@@ -1,5 +1,7 @@
 ## This playbook was created to sample how we can interact with the GitHub API
 
+You can fin the [GitHub API here](https://docs.github.com/en/rest/repos/webhooks?apiVersion=2022-11-28)
+
 
 #### Available playbooks
 * [List repository for a user](list_user_repositories.yml)
@@ -8,7 +10,7 @@
 
 #### Required
 
-This playbookl requires the jmespath to be install.
+This playbook requires the jmespath to be install.
 ```
 pip3 install jmespath
 ```
