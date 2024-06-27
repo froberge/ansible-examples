@@ -5,7 +5,7 @@
   tasks:
     - name: Create a webhook 
       ansible.builtin.uri:
-        url: "{{ GITHUB_API_WEBHOOK_BASE_URL }}/product-service/hooks"
+        url: "{{ GITHUB_API_WEBHOOK_BASE_URL }}/{{REPO}}/hooks"
         method: POST
         headers:
           Accept: "{{ GITHUB_HEARDER_ACCEPT }}"

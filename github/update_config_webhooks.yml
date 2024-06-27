@@ -1,9 +1,8 @@
 ---
-- name: Delete Webhooks on a repository
+- name: Update secret on webhook on a repository
   hosts: localhost
 
   tasks:
-
     - name: List All Webhooks on repository
       ansible.builtin.uri:
         url: "{{ GITHUB_API_WEBHOOK_BASE_URL }}/{{REPO}}/hooks"
@@ -14,13 +13,20 @@
           X-GitHub-Api-Version: "{{ GITHUB_API_VERSION }}"
       register: webhooks_list
 
-    - name: Delete a repository webhook
+    - name: Upate webhook config
       ansible.builtin.uri:
         url: "{{ GITHUB_API_WEBHOOK_BASE_URL }}/{{REPO}}/hooks/{{item}}"
-        method: DELETE
+        method: PATCH
         headers:
           Accept: "{{ GITHUB_HEARDER_ACCEPT }}"
           Authorization: "Bearer {{ GITHUB_API_TOKEN }}"
           X-GitHub-Api-Version: "{{ GITHUB_API_VERSION }}"
-        status_code: 204
+        body_format: "json"
+        body: 
+          config:
+            url: "{{WEBHOOK_URL}}/updatedwebook"
+            content_type: "json"
+            secret: "{{WEBHOOK_SECRET}}"
+            insecure_ssl: "0"
+        status_code: 200
       loop: "{{ webhooks_list | community.general.json_query('json[*].id') }}"
