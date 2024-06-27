@@ -1,0 +1,16 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+
+
+# misc
+.DS_Store
+.env.local
+note.txt
+
+/inventory/*-local.yml
+
+
+
+/*-artifact-*.json
+

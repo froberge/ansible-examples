@@ -1,0 +1,26 @@
+---
+- name: Delete Webhooks on repository
+  hosts: localhost
+
+  tasks:
+
+    - name: List All Webhooks on repository
+      ansible.builtin.uri:
+        url: "{{ GITHUB_API_WEBHOOK_BASE_URL }}/product-service/hooks"
+        method: GET
+        headers:
+          Accept: "{{ GITHUB_HEARDER_ACCEPT }}"
+          Authorization: "Bearer {{ GITHUB_API_TOKEN }}"
+          X-GitHub-Api-Version: "{{ GITHUB_API_VERSION }}"
+      register: webhooks_list
+
+    - name: Delete a repository webhook
+      ansible.builtin.uri:
+        url: "{{ GITHUB_API_WEBHOOK_BASE_URL }}/product-service/hooks/{{item}}"
+        method: DELETE
+        headers:
+          Accept: "{{ GITHUB_HEARDER_ACCEPT }}"
+          Authorization: "Bearer {{ GITHUB_API_TOKEN }}"
+          X-GitHub-Api-Version: "{{ GITHUB_API_VERSION }}"
+        status_code: 204
+      loop: "{{ webhooks_list | community.general.json_query('json[*].id') }}"
