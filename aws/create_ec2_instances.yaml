@@ -34,17 +34,33 @@
       region: "{{region}}"
       az: "{{region}}a"
       state: present
-      cidr: "{{vpc.vpc.cidr_block}}"
+      cidr: "10.0.1.0/24"
       tags:
         name: ansible_demo_dev_subnet
     register: subnet_ids
 
+  - name: create a route table
+    amazon.aws.ec2_vpc_route_table:
+      vpc_id: "{{vpc.vpc.id}}"
+      region: "{{ region }}"
+      state: present
+      tags:
+        Name: ansible_demo_dev_route_table
+      subnets: [ "{{ subnet_ids.subnet.id }}" ]
+      # create routes
+      routes:
+        - dest: "0.0.0.0/0"
+          gateway_id: "{{ internet_gateway.gateway_id }}"
+    register: public_route_table
+
   - name: create a security group
-    ec2_group:
+    ec2_security_group:
       name: AnsibleSecurity
       description: "Ansible Security Group"
       region: "{{region}}"
-      vpc_id: "{{subnet_ids.subnets[0].vpc_id}}"
+      vpc_id: "{{vpc.vpc.id}}"
+      tags:
+        Name: ansible_demo_dev_security_group
       rules:
         - proto: tcp
           from_port: 80
