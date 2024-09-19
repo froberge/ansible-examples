@@ -13,7 +13,7 @@
       tags:
         name: "ansible_demo_VPC"
         project: "Ansible_Demo"
-      register: vpc  
+    register: vpc  
 
   - name: create an internet gateway
     amazon.aws.ec2_vpc_igw:
@@ -22,7 +22,7 @@
       tags:
         name: "internet_gateway"
         project: "Ansible_Demo"
-      register: internet_gateway
+    register: internet_gateway
 
 
   - name: find a subnet id
