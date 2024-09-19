@@ -2,39 +2,50 @@
 - name: launching an ec2 instance
   hosts: localhost
 
+  vars:
+    region: "us-east-2"
+
   tasks:
 
-  - name: create a VPC
+  - name: create a VPC in AWS
     amazon.aws.ec2_vpc_net:
-      name: module_dev2
+      name: ansible_demo_dev
       cidr_block: 10.0.0.0/16
-      region: us-east-2
+      region: "{{region}}"
       tags:
-        name: "ansible_demo_VPC"
+        name: "ansible_demo_dev_vpc"
         project: "Ansible_Demo"
     register: vpc  
 
-  - name: create an internet gateway
+  - name: create an internet gateway for the VPC
     amazon.aws.ec2_vpc_igw:
+      name: ansible_demo_dev
       vpc_id: "{{vpc.vpc.id}}"
-      region: us-east-2
+      region: "{{region}}"
       state: present
       tags:
-        name: "internet_gateway"
+        name: "ansible_demo_dev_igw"
         project: "Ansible_Demo"
     register: internet_gateway
 
 
-  - name: find a subnet id
+  - name: create a subnet in the VPC
     ec2_vpc_subnet_info:
-      region: us-east-2
+      name: ansible_demo_dev_subnet
+      vpc_id: "{{vpc.vpc.id}}"
+      region: "{{region}}"
+      az: a
+      state: present
+      cidr: "{{vpc.vpc.cidr_block}}"
+      tags:
+        name: ansible_demo_dev_subnet
     register: subnet_ids
 
   - name: create a security group
     ec2_group:
       name: AnsibleSecurity
       description: "Ansible Security Group"
-      region: us-east-2
+      region: "{{region}}"
       vpc_id: "{{subnet_ids.subnets[0].vpc_id}}"
       rules:
         - proto: tcp
@@ -78,7 +89,7 @@
   - name: launch an ec2 instance
     amazon.aws.ec2_instance:
       instance_type: t2.micro
-      region: us-east-2
+      rregion: "{{region}}"
       image: ami-0aa8fc2422063977a
       security_group: "{{my_security_group.group_id}}"
       key_name: "ansible_automation_platform"
