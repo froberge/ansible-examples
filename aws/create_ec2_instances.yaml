@@ -1,8 +1,6 @@
 ---
 - name: launching an ec2 instance
   hosts: localhost
-  connection: local
-  gather_facts: false
   tasks:
 
   - name: find a subnet id
