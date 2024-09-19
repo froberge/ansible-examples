@@ -54,7 +54,7 @@
     register: public_route_table
 
   - name: create a security group
-    ec2_security_group:
+    ec2_group:
       name: AnsibleSecurity
       description: "Ansible Security Group"
       region: "{{region}}"
