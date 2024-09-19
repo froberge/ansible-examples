@@ -101,7 +101,7 @@
     register: my_security_group
 
   - name: launch an ec2 instance
-    amazon.aws.ec2_instance:
+    ec2:
       instance_type: t2.micro
       region: "{{region}}"
       image: "ami-0d77c9d87c7e619f9"
