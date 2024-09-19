@@ -16,7 +16,7 @@
 
   - name: create an internet gateway
     amazon.aws.ec2_vpc_igw:
-      vpc_id: "{{vpc.vpc[0].id}}"
+      vpc_id: "{{vpc.vpc.id}}"
       state: present
       tags:
         name: "internet_gateway"
