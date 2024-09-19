@@ -17,6 +17,7 @@
   - name: create an internet gateway
     amazon.aws.ec2_vpc_igw:
       vpc_id: "{{vpc.vpc.id}}"
+      region: us-east-2
       state: present
       tags:
         name: "internet_gateway"
