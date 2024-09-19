@@ -58,7 +58,7 @@
       instance_type: t2.micro
       region: us-east-2
       image: ami-0aa8fc2422063977a
-      group_id: "{{my_security_group.group_id}}"
+      security_group: "{{my_security_group.group_id}}"
       key_name: "ansible_automation_platform"
       count: 1
       wait: yes
@@ -70,7 +70,8 @@
         project: "Ansible_Demo"
         provider: "AWS"
       vpc_subnet_id: "{{subnet_ids.subnets[0].id}}"
-      assign_public_ip: yes
+      network_interfaces:        
+        - assign_public_ip: yes
     register: ec2_instance
 
   - name: Wait for ssh to come up
