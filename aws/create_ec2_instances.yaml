@@ -8,7 +8,6 @@
     amazon.aws.ec2_vpc_net:
       name: module_dev2
       cidr_block: 10.0.0.0/16
-      dns_hostnames: true
       region: us-east-2
       tags:
         name: "ansible_demo_VPC"
