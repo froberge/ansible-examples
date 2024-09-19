@@ -11,7 +11,8 @@
       dns_hostnames: true
       region: us-east-2
       tags:
-        Name = "ansibler_demo_VPC
+        name: "ansible_demo_VPC"
+        project: "Ansible_Demo"
       register: vpc  
 
   - name: create an internet gateway
@@ -19,7 +20,8 @@
       vpc_id: "{{vpc.vpc_id}}"
       state: present
       tags:
-        tags1: 
+        name: "internet_gateway"
+        project: "Ansible_Demo"
       register: internet_gateway
 
 
