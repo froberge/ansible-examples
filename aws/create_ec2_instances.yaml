@@ -117,7 +117,7 @@
         type: "dev_lb"
         project: "Ansible_Demo"
         provider: "AWS"
-      vpc_subnet_id: "{{subnet_ids.subnets.id}}"  
+      vpc_subnet_id: "{{subnet_ids.subnet.id}}"  
       assign_public_ip: yes
     register: ec2_instance
 
