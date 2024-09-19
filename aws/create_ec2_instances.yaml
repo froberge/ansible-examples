@@ -30,7 +30,6 @@
 
   - name: create a subnet in the VPC
     ec2_vpc_subnet_info:
-      name: ansible_demo_dev_subnet
       vpc_id: "{{vpc.vpc.id}}"
       region: "{{region}}"
       az: a
