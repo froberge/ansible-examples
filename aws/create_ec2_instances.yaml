@@ -1,0 +1,93 @@
+---
+- name: launching an ec2 instance
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+
+  - name: find a subnet id
+    ec2_vpc_subnet_info:
+      region: us-east-2
+    register: subnet_ids
+
+  - name: create a security group
+    ec2_group:
+      name: AnsibleSecurity
+      description: "Ansible Security Group"
+      region: us-east-2
+      vpc_id: "{{subnet_ids.subnets[0].vpc_id}}"
+      rules:
+        - proto: tcp
+          from_port: 80
+          to_port: 80
+          cidr_ip: 0.0.0.0/0
+        - proto: tcp
+          from_port: 22
+          to_port: 22
+          cidr_ip: 0.0.0.0/0
+        - proto: tcp
+          from_port: 8080
+          to_port: 8080
+          cidr_ip: 0.0.0.0/0
+        - proto: tcp
+          from_port: 3389
+          to_port: 3389
+          cidr_ip: 0.0.0.0/0
+        - proto: tcp
+          from_port: 443
+          to_port: 443
+          cidr_ip: 0.0.0.0/0
+        - proto: tcp
+          from_port: 3389
+          to_port: 3389
+          cidr_ip: 0.0.0.0/0
+        - proto: tcp
+          from_port: 5985
+          to_port: 5985
+          cidr_ip: 0.0.0.0/0
+        - proto: tcp
+          from_port: 5986
+          to_port: 5986
+          cidr_ip: 0.0.0.0/0
+        - proto: icmp
+          from_port: -1 # icmp type, -1 = any type
+          to_port:  -1 # icmp subtype, -1 = any subtype
+          cidr_ip: 0.0.0.0/0
+    register: my_security_group
+
+  - name: launch an ec2 instance
+    ec2:
+      instance_type: "{{ ec2_type | default('t2.micro') }}"
+      region: us-east-2
+#      image: ami-011b3ccf1bd6db744
+      image: ami-098f16afa9edf40be
+      group_id: "{{my_security_group.group_id}}"
+      key_name: "{{ key_instance_name | default('AWS2') }}"
+      count: "{{ instance_count | default('1') }}"
+      wait: yes
+      wait_timeout: 500
+      instance_tags:
+        Name: "{{ instance_name }}"
+        Owner: Dan
+        AWS: "{{ env }}_{{ tag_group }}"
+        project: "{{ project_name | default('none') }}"
+      vpc_subnet_id: "{{subnet_ids.subnets[0].id}}"
+      assign_public_ip: yes
+    register: ec2_instance
+
+  - name: Wait for ssh to come up
+    wait_for: host={{ item.public_dns_name  }} port=22 delay=60 timeout=320 state=started
+    with_items: "{{ ec2_instance.instances }}"
+
+
+  - name: Add all instance public IPs to host group
+    add_host: hostname={{ item.public_ip }} groups=ec2hosts
+    loop: "{{ ec2_instance.instances }}"
+
+  - name: debug values of new VM
+    debug:
+      msg: "{{ ec2_instance }}"
+
+#  - name: add new instance into inventory
+#    add_host: hostname={{item.public_ip}} groupname=tower
+#    with_items: "{{ec2.instances}}"
