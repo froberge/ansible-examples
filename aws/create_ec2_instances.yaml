@@ -59,13 +59,13 @@
       region: us-east-2
       image: ami-0aa8fc2422063977a
       group_id: "{{my_security_group.group_id}}"
-      key_name: "{{ key_instance_name | default('AWS2') }}"
+      key_name: "{{ key_instance_name | default('ansible_automation_platform') }}"
       count: "{{ instance_count | default('1') }}"
       wait: yes
       wait_timeout: 500
       instance_tags:
         Name: "{{ instance_name }}"
-        Owner: Dan
+        Owner: Felix
         AWS: "{{ env }}_{{ tag_group }}"
         project: "{{ project_name | default('none') }}"
       vpc_subnet_id: "{{subnet_ids.subnets[0].id}}"
