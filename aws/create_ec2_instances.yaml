@@ -3,6 +3,26 @@
   hosts: localhost
 
   tasks:
+
+  - name: create a VPC
+    amazon.aws.ec2_vpc_net:
+      name: module_dev2
+      cidr_block: 10.0.0.0/16
+      dns_hostnames: true
+      region: us-east-2
+      tags:
+        Name = "ansibler_demo_VPC
+      register: vpc  
+
+  - name: create an internet gateway
+    amazon.aws.ec2_vpc_igw:
+      vpc_id: "{{vpc.vpc_id}}"
+      state: present
+      tags:
+        tags1: 
+      register: internet_gateway
+
+
   - name: find a subnet id
     ec2_vpc_subnet_info:
       region: us-east-2
