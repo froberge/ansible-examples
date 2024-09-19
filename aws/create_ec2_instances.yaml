@@ -104,7 +104,7 @@
     amazon.aws.ec2_instance:
       instance_type: t2.micro
       region: "{{region}}"
-      image: "ami-0aa8fc2422063977a"
+      image: "ami-0d77c9d87c7e619f9"
       group_id: "{{my_security_group.group_id}}"
       key_name: "ansible_automation_platform"
       count: 1
