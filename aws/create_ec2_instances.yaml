@@ -55,19 +55,20 @@
 
   - name: launch an ec2 instance
     amazon.aws.ec2_instance:
-      instance_type: "{{ ec2_type | default('t2.micro') }}"
+      instance_type: t2.micro
       region: us-east-2
       image: ami-0aa8fc2422063977a
       group_id: "{{my_security_group.group_id}}"
-      key_name: "{{ key_instance_name | default('ansible_automation_platform') }}"
-      count: "{{ instance_count | default('1') }}"
+      key_name: "ansible_automation_platform"
+      count: 1
       wait: yes
       wait_timeout: 500
-      instance_tags:
-        Name: "{{ instance_name }}"
+      tags:
+        Name: "demo_lb_server"
         Owner: Felix
-        AWS: "{{ env }}_{{ tag_group }}"
-        project: "{{ project_name | default('none') }}"
+        type: "dev_lb"
+        project: "Ansible_Demo"
+        provider: "AWS"
       vpc_subnet_id: "{{subnet_ids.subnets[0].id}}"
       assign_public_ip: yes
     register: ec2_instance
