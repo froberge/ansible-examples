@@ -101,10 +101,10 @@
     register: my_security_group
 
   - name: launch an ec2 instance
-    ec2:
+    ec2_instance:
       instance_type: t2.micro
       region: "{{region}}"
-      image: "ami-0d77c9d87c7e619f9"
+      image_id: "ami-0d77c9d87c7e619f9"
       group_id: "{{my_security_group.group_id}}"
       key_name: "ansible_automation_platform"
       count: 1
