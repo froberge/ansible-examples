@@ -19,7 +19,6 @@
 
   - name: create an internet gateway for the VPC
     amazon.aws.ec2_vpc_igw:
-      name: ansible_demo_dev
       vpc_id: "{{vpc.vpc.id}}"
       region: "{{region}}"
       state: present
@@ -89,7 +88,7 @@
   - name: launch an ec2 instance
     amazon.aws.ec2_instance:
       instance_type: t2.micro
-      rregion: "{{region}}"
+      region: "{{region}}"
       image: ami-0aa8fc2422063977a
       security_group: "{{my_security_group.group_id}}"
       key_name: "ansible_automation_platform"
