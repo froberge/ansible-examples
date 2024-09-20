@@ -34,7 +34,7 @@
       region: "{{region}}"
       az: "{{region}}a"
       state: present
-      cidr: "10.0.0.0/16"
+      cidr: "10.0.1.0/24"
       tags:
         name: ansible_demo_dev_subnet
     register: subnet_ids
