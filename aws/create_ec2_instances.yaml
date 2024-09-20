@@ -4,16 +4,16 @@
 
   roles: 
   - name: "Create VPC"
-    roles: aws_vpc
+    role: aws_vpc
 
   - name: "Create LB EC2 instance"
-    roles: aws_ec2
+    role: aws_ec2
     vars:
       type: "dev_lb"
       count: 1
 
   - name: "Create WS EC2 instance"
-    roles: aws_ec2
+    role: aws_ec2
     vars:
       type: "dev_ws"
       count: 2
