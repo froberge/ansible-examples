@@ -5,7 +5,7 @@
     ec2_instance:
       instance_type: "{{ instance_type }}"
       region: "{{ region }}"
-      image_id: " {{ image_id }}"
+      image_id: "{{ image_id }}"
       key_name: "{{ key_name }}"
       count: "{{ count }}"
       wait: yes
