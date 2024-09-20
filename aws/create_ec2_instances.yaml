@@ -10,13 +10,17 @@
     role: aws_ec2
     vars:
       type: "dev_lb"
-      count: 1
+      server_name: 
+        - "demo_lb_server"
 
   - name: "Create WS EC2 instance"
     role: aws_ec2
     vars:
       type: "dev_ws"
-      count: 2
+      server_name: 
+        - "demo_ws_server_1"
+        - "demo_ws_server_2"
+
 
 
   # vars:
