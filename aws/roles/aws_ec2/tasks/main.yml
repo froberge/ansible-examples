@@ -1,0 +1,24 @@
+---
+# tasks file for aws_ec2
+
+  - name: launch an ec2 instance
+    ec2_instance:
+      instance_type: "{{ instance_type }}"
+      region: "{{ region }}"
+      image_id: " {{ image_id }}"
+      key_name: "{{ key_name }}"
+      count: "{{ count }}"
+      wait: yes
+      wait_timeout: 500
+      state: present
+      tags:
+        Name: "demo_lb_server"
+        Owner: Felix
+        type: "{{ type }}"
+        project: "Ansible_Demo"
+        provider: "AWS"
+      vpc_subnet_id: "{{subnet_ids.subnet.id}}"
+      security_group: "{{my_security_group.group_id}}"
+      network_interfaces:
+        - assign_public_ip: yes
+    register: ec2_instance

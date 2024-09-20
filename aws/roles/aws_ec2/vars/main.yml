@@ -1,0 +1,7 @@
+---
+# vars file for aws_ec2
+
+image_id: "ami-0d77c9d87c7e619f9"
+instance_type: "t2.micro"
+region: "us-east-2"
+key_name: "ansible_automation_platform"
