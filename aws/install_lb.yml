@@ -1,0 +1,6 @@
+---
+- name: Configure Haproxy Load Balancer
+  hosts: all
+
+  roles:
+    - role: haproxy-config

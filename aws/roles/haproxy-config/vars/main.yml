@@ -1,0 +1,4 @@
+---
+# vars file for haproxy-config
+lb_group_name: "tag_dev_lb"
+ws_group_name: "tag_dev_ws"
