@@ -2,8 +2,9 @@
 - name: Configure JBoss EAP Server
   hosts: all
 
-  var:
+  vars:
     ws_group_name: tag_dev_ws
+
   roles:
     - role: jboss-eap-config
       when: ws_group_name in group_names
