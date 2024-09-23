@@ -7,7 +7,6 @@
     - name: Ensure the epel repo is present
       yum:
         name: https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm 
-        # name: https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
         disable_gpg_check: yes
         state: present
 
@@ -26,4 +25,4 @@
         name: haproxy
         state: started
         enabled: true
-  when: "'{{ lb_group_name }}' in group_names"
+  when: lb_group_name  in group_names
