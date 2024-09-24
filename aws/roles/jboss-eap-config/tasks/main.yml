@@ -19,12 +19,6 @@
 #     # app:
 #     #   name: 'info-1.1.war'
 #     #   url: 'https://drive.google.com/uc?export=download&id=1w9ss5okctnjUvRAxhPEPyC7DmbUwmbhb'
-collections:
-  - redhat.eap
-roles:
-  - eap_install
-
-tasks:
   - name: "Set up for WildFly instance {{ item }}"
     include_role:
       name: eap_systemd

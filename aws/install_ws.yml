@@ -5,6 +5,11 @@
   vars:
     ws_group_name: tag_dev_ws
 
+  collections:
+    - redhat.eap
+  roles:
+    - eap_install
+
   roles:
     - role: jboss-eap-config
       when: ws_group_name in group_names
