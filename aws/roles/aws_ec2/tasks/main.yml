@@ -9,7 +9,7 @@
       key_name: "{{ key_name }}"
       count: "1"
       wait: true
-      state: present
+      state: running
       tags:
         Name: "{{ item }}"
         Owner: Felix
