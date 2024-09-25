@@ -10,6 +10,7 @@
     role: aws_ec2
     vars:
       type: "dev_lb"
+      instance_type: "t2.micro"
       server_name: 
         - "demo_lb_server"
 
@@ -17,6 +18,7 @@
     role: aws_ec2
     vars:
       type: "dev_ws"
+      instance_type: "t2.medium"
       server_name: 
         - "demo_ws_server_1"
         - "demo_ws_server_2"
