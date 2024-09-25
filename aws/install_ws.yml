@@ -3,7 +3,7 @@
   hosts: all
 
   vars:
-    ws_group_name: tag_dev_ws
+    ws_group_name: tag_type_dev_ws
 
   roles:
     - role: jboss-eap-config

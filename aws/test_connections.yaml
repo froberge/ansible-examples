@@ -3,8 +3,8 @@
   hosts: all
 
   vars:
-    ws_group_name: tag_dev_ws
-    lb_group_name: tag_dev_lb
+    ws_group_name: tag_type_dev_ws
+    lb_group_name: tag_type_dev_lb
 
 
   tasks:
