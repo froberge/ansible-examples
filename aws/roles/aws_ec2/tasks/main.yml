@@ -2,7 +2,7 @@
 # tasks file for aws_ec2
 
   - name: "Provision EC2 instance"
-    ec2_instance:
+    amazon.aws.ec2_instance:
       instance_type: "{{ instance_type | default('t2.micro') }}"
       region: "{{ region }}"
       image_id: "{{ image_id }}"

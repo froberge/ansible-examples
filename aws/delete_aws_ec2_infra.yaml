@@ -1,0 +1,30 @@
+---
+- name: Delete VMs
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  vars:
+    region: "us-east-2"
+    project_name: "Ansible_Demo"
+
+  tasks:
+  - name: Get ec2 instance info for project "{{ project_name }}"
+    amazon.aws.ec2_instance_info:
+      region: "{{ region }}"
+      filters:
+        "tag:project": "{{ project_name }}"
+    register: ec2_list
+
+  - debug: 
+      msg: "{{ item.instance_id }}"
+    loop: "{{ ec2_list.instances }}"
+
+
+  - name: Delete EC2 vms with project name "{{ project_name }}"
+    amazon.aws.ec2_instance: 
+      instance_ids: "{{ item.instance_id }}"
+      region: "{{ region }}"
+      state: "absent"
+      wait: true
+    with_items: "{{ ec2_list.instances }}"
