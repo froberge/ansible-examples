@@ -52,7 +52,7 @@
     amazon.aws.ec2_vpc_subnet:
       region: "{{ region }}"
       vpc_id: "{{ all_vpcs.vpcs[0].vpc_id }}"
-      cidr: "{{subnet_cidr:}}"
+      cidr: "{{ subnet_cidr }}"
       state: absent
 
   - name: Gather information about all Security Groups for project "{{ project_name }}"
