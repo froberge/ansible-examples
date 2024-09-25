@@ -33,7 +33,7 @@
         "tag:project": "{{ project_name }}"
       register: all_vpcs
 
-- name: Delete Route Table for project "{{ project_name }}"
+- name: Delete Route Table for project
   community.aws.ec2_vpc_route_table:
     region: "{{ region }}"
     vpc_id: "{{ all_vpcs.vpcs[0].vpc_id }}"
@@ -41,21 +41,21 @@
       Name: "ansible_demo_dev_route_table"
     state: absent
 
-- name: Delete internet gateway for project "{{ project_name }}"
+- name: Delete internet gateway for project
   community.aws.ec2_vpc_igw:
     region: "{{ region }}"
     vpc_id: "{{ item.vpc_id }}"
     state: absent
   loop: '{{ all_vpcs.vpcs }}'
 
-- name: Delete Subnet for project "{{ project_name }}"
+- name: Delete Subnet
   amazon.aws.ec2_vpc_subnet:
     region: "{{ region }}"
     vpc_id: "{{ all_vpcs.vpcs[0].vpc_id }}"
     cidr: "{{subnet_cidr:}}"
     state: absent
 
-- name: Gather information about all Security Groups for project "{{ project_name }}"
+- name: Gather information about all Security Groups
   amazon.aws.ec2_group_info:
     region: "{{ region }}"
     filters:
@@ -70,7 +70,7 @@
   loop: "{{ all_sg.security_groups }}"
   when: item.group_name != "default"
 
-- name: Delete AWS VPC for project "{{ project_name }}"
+- name: Delete AWS VPC for project
   amazon.aws.ec2_vpc_net:
     name: "ansible_demo_dev"
     cidr_block: "{{ vpc_cidr }}"
