@@ -31,7 +31,7 @@
       region: "{{ region }}"
       filters:
         "tag:project": "{{ project_name }}"
-      register: all_vpcs
+    register: all_vpcs
 
   - name: Delete Route Table for project "{{ project_name }}"
     community.aws.ec2_vpc_route_table:
