@@ -2,6 +2,11 @@
 - name: Test connection to the vm with a curl
   hosts: all
 
+  vars:
+    ws_group_name: tag_dev_ws
+    lb_group_name: tag_dev_lb
+
+
   tasks:
 
     - name: Confirm that the load balancer return a 200 code
