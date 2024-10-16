@@ -34,7 +34,7 @@
     register: all_vpcs
 
   - name: Delete Route Table for project "{{ project_name }}"
-    community.aws.ec2_vpc_route_table:
+    amazon.aws.ec2_vpc_route_table:
       region: "{{ region }}"
       vpc_id: "{{ all_vpcs.vpcs[0].vpc_id }}"
       tags:
@@ -42,7 +42,7 @@
       state: absent
 
   - name: Delete internet gateway for project "{{ project_name }}"
-    community.aws.ec2_vpc_igw:
+    amazon.aws.ec2_vpc_igw:
       region: "{{ region }}"
       vpc_id: "{{ item.vpc_id }}"
       state: absent
