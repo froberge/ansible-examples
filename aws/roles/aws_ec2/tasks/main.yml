@@ -17,7 +17,7 @@
         project: "Ansible_Demo"
         provider: "AWS"
       vpc_subnet_id: "{{subnet_ids.subnet.id}}"
-      security_group: "{{my_security_group.group_id}}"
+      security_group: "{{ my_security_group.group_id }}"
       network_interfaces:
         - assign_public_ip: yes
     loop: "{{ server_name }}"

@@ -1,0 +1,14 @@
+all:
+  vars: 
+    AWS_ACCESS_KEY_ID: [KEY HERE]
+    AWS_SECRET_KEY: [KEY HERE]
+    project_name: "Ansible_Windows_Demo"
+    routigTable_name: "rt_ansible_window_demo"
+    key_name: "administrator_key"
+    region: "us-east-2"
+    zone: "us-east-2a"
+    image_id: "ami-0c808db6baea2d0ed"
+    vpc_cidr_block: "10.0.0.0/16"
+    subnet_cidr_block: "10.0.0.0/20"
+    security_cidr_block: "0.0.0.0/0"
+    destination_cidr_block: "0.0.0.0/0"

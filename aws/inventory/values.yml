@@ -1,0 +1,4 @@
+all:
+  vars: 
+    AWS_ACCESS_KEY_ID: [KEY HERE]
+    AWS_SECRET_KEY: [KEY HERE]

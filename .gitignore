@@ -3,7 +3,8 @@
 # misc
 .DS_Store
 note.txt
-.env.*
+*-local*
+*.pem
 .vscode
 
 
