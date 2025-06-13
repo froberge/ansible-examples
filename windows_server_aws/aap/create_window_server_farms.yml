@@ -24,7 +24,7 @@
   tasks:
     - name: Get EC2 key pair information
       amazon.aws.ec2_key_info:
-        name: "{{ key_name }}"
+        names: "{{ key_name }}"
         region: "{{ region }}"
       register: key_pair_info
 
