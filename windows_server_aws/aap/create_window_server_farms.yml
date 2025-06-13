@@ -129,7 +129,7 @@
         instance_id: "i-02c27e43ed95e84e0"
         #"{{ ec2_instance[0].instance.instance_id }}"
         region: "{{ region }}"
-        key_date: "{{ rsa_key.key.private_key }}"
+        key_data: "{{ rsa_key.key.private_key }}"
         wait: true
       register: password
 
