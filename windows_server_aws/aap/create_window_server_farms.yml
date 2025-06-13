@@ -14,7 +14,7 @@
 # key_name: ""
 # region: "us-east-2"
 # zone: "us-east-2a"
-# image_id: ""
+# image_id: "ami-0456f45d07f287a4f" server2019
 # vpc_cidr_block: "10.0.0.0/16"
 # subnet_cidr_block: "10.0.0.0/20"
 # security_cidr_block: "0.0.0.0/0"
@@ -126,8 +126,7 @@
 
     - name: Get admin password
       community.aws.ec2_win_password:
-        instance_id: "i-02c27e43ed95e84e0"
-        #"{{ ec2_instance[0].instance.instance_id }}"
+        instance_id: "{{ ec2_instance[0].instance.instance_id }}"
         region: "{{ region }}"
         key_data: "{{ rsa_key.key.private_key }}"
         wait: true
