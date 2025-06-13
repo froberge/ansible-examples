@@ -23,7 +23,7 @@
 
   tasks:
     - name: Get EC2 key pair information
-      amazon.aws.ec2.key_info:
+      amazon.aws.ec2_key:
         name: "{{ key_name }}"
       register: key_pair_info
 
@@ -33,7 +33,7 @@
 
     - name: debug_1 
       ansible.builtin.debug:
-        msg: "Key pair key: {{ key_pair_info.private_key }}"
+        msg: "Key pair key: {{ key_pair_info.key.private_key }}"
 
   #  - name: Create a VPC in AWS
     #   amazon.aws.ec2_vpc_net:
