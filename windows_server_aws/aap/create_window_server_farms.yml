@@ -25,112 +25,112 @@
 
     - name: show KEY
       debug:
-        msg: '{{ lookup("env", "window_machine.key.private_key" ) }}'
+        msg: '{{ lookup("env", "window_private_key" ) }}'
 
-    - name: Create a VPC in AWS
-      amazon.aws.ec2_vpc_net:
-        name: "{{  vpc_name }}"
-        cidr_block: "{{ vpc_cidr_block }}"
-        region: "{{ region }}"
-        tags:
-          name: "vpc_ansible_window_demo"
-          project: "{{ project_name }}"
-      register: vpc 
+    # - name: Create a VPC in AWS
+    #   amazon.aws.ec2_vpc_net:
+    #     name: "{{  vpc_name }}"
+    #     cidr_block: "{{ vpc_cidr_block }}"
+    #     region: "{{ region }}"
+    #     tags:
+    #       name: "vpc_ansible_window_demo"
+    #       project: "{{ project_name }}"
+    #   register: vpc 
 
-    - name: Create a subnet for the VPC
-      amazon.aws.ec2_vpc_subnet:
-        vpc_id: "{{vpc.vpc.id}}"
-        region: "{{ region }}"
-        az: "{{ zone }}"
-        state: present
-        cidr: "{{ subnet_cidr_block }}"
-        map_public: true
-        tags:
-          name: "{{ subnet_name }}"
-          project: "{{ project_name }}"
-      register: subnet_ids
+    # - name: Create a subnet for the VPC
+    #   amazon.aws.ec2_vpc_subnet:
+    #     vpc_id: "{{vpc.vpc.id}}"
+    #     region: "{{ region }}"
+    #     az: "{{ zone }}"
+    #     state: present
+    #     cidr: "{{ subnet_cidr_block }}"
+    #     map_public: true
+    #     tags:
+    #       name: "{{ subnet_name }}"
+    #       project: "{{ project_name }}"
+    #   register: subnet_ids
 
-    - name: Create the internet gateway for the VPC
-      amazon.aws.ec2_vpc_igw:
-        vpc_id: "{{vpc.vpc.id}}"
-        region: "{{ region }}"
-        state: present
-        tags:
-          name: "{{ internet_gateway_name }}"
-          project: "{{ project_name }}"
-      register: internet_gateway
+    # - name: Create the internet gateway for the VPC
+    #   amazon.aws.ec2_vpc_igw:
+    #     vpc_id: "{{vpc.vpc.id}}"
+    #     region: "{{ region }}"
+    #     state: present
+    #     tags:
+    #       name: "{{ internet_gateway_name }}"
+    #       project: "{{ project_name }}"
+    #   register: internet_gateway
 
-    - name: Create a route table for the VPC
-      amazon.aws.ec2_vpc_route_table:
-        vpc_id: "{{vpc.vpc.id}}"
-        region: "{{ region }}"
-        state: present
-        tags:
-          name: "{{ routigTable_name }}"
-          project: "{{ project_name }}"
-        subnets: [ "{{ subnet_ids.subnet.id }}" ]
-        # create routes
-        routes:
-          - dest: "{{ destination_cidr_block }}"
-            gateway_id: "{{ internet_gateway.gateway_id }}"
-      register: public_route_table
+    # - name: Create a route table for the VPC
+    #   amazon.aws.ec2_vpc_route_table:
+    #     vpc_id: "{{vpc.vpc.id}}"
+    #     region: "{{ region }}"
+    #     state: present
+    #     tags:
+    #       name: "{{ routigTable_name }}"
+    #       project: "{{ project_name }}"
+    #     subnets: [ "{{ subnet_ids.subnet.id }}" ]
+    #     # create routes
+    #     routes:
+    #       - dest: "{{ destination_cidr_block }}"
+    #         gateway_id: "{{ internet_gateway.gateway_id }}"
+    #   register: public_route_table
 
-    - name: Create security group
-      amazon.aws.ec2_group:
-        name: "{{ security_group_name }}"
-        description: "allow remote windows"
-        vpc_id: "{{ vpc.vpc.id }}"
-        region: "{{ region }}"
-        tags:
-          name: "{{ security_group_name }}"
-          project: "{{ project_name }}"
-        rules:
-          - proto: tcp
-            ports: 3389
-            cidr_ip: "{{ security_cidr_block }}"
-      register: securityGroup
+    # - name: Create security group
+    #   amazon.aws.ec2_group:
+    #     name: "{{ security_group_name }}"
+    #     description: "allow remote windows"
+    #     vpc_id: "{{ vpc.vpc.id }}"
+    #     region: "{{ region }}"
+    #     tags:
+    #       name: "{{ security_group_name }}"
+    #       project: "{{ project_name }}"
+    #     rules:
+    #       - proto: tcp
+    #         ports: 3389
+    #         cidr_ip: "{{ security_cidr_block }}"
+    #   register: securityGroup
 
-    - name: Create EC2 instance
-      amazon.aws.ec2_instance:
-        instance_type: "{{ instance_type | default('t2.micro') }}"
-        region: "{{ region }}"
-        image_id: "{{ image_id }}"
-        key_name: "{{ key_name }}"
-        count: "1"
-        wait: true
-        state: present
-        vpc_subnet_id: "{{subnet_ids.subnet.id}}"
-        security_group: "{{ securityGroup.group_name }}"
-        network_interfaces:
-          - assign_public_ip: true
-        tags:
-          Name: "{{ item }}"
-          Type: "windowServer"
-          Env: "dev"
-          Project: "{{ project_name }}"
-          Provider: "AWS"
-        volumes:
-          - device_name: /dev/sda1
-            ebs:
-              volume_size: 30
-              volume_type: gp2
-              delete_on_termination: true
-      loop: "{{ server_name }}"
-      register: ec2_instance
+    # - name: Create EC2 instance
+    #   amazon.aws.ec2_instance:
+    #     instance_type: "{{ instance_type | default('t2.micro') }}"
+    #     region: "{{ region }}"
+    #     image_id: "{{ image_id }}"
+    #     key_name: "{{ key_name }}"
+    #     count: "1"
+    #     wait: true
+    #     state: present
+    #     vpc_subnet_id: "{{subnet_ids.subnet.id}}"
+    #     security_group: "{{ securityGroup.group_name }}"
+    #     network_interfaces:
+    #       - assign_public_ip: true
+    #     tags:
+    #       Name: "{{ item }}"
+    #       Type: "windowServer"
+    #       Env: "dev"
+    #       Project: "{{ project_name }}"
+    #       Provider: "AWS"
+    #     volumes:
+    #       - device_name: /dev/sda1
+    #         ebs:
+    #           volume_size: 30
+    #           volume_type: gp2
+    #           delete_on_termination: true
+    #   loop: "{{ server_name }}"
+    #   register: ec2_instance
 
-    - name: Print ece_instance
-      ansible.builtin.debug:
-        msg: "Ansible ec2_instance : {{ ec2_instance  }}"
+    # - name: Print ece_instance
+    #   ansible.builtin.debug:
+    #     msg: "Ansible ec2_instance : {{ ec2_instance  }}"
 
-    - name: Get admin password
-      community.aws.ec2_win_password:
-        instance_id: 'i-0f908f7d12edb09ea'
-        #"{{ ec2_instance[0].instance.instance_id }}"
-        region: "{{ region }}"
-        key_data: "{{ window_machine.key.private_key }}"
-        wait: true
-      register: password
+    # - name: Get admin password
+    #   community.aws.ec2_win_password:
+    #     instance_id: 'i-0f908f7d12edb09ea'
+    #     #"{{ ec2_instance[0].instance.instance_id }}"
+    #     region: "{{ region }}"
+    #     key_data: "{{ window_machine.key.private_key }}"
+    #     wait: true
+    #   register: password
 
-    - name: show password
-      debug:
-        msg: "{{ password.win_password }}"
+    # - name: show password
+    #   debug:
+    #     msg: "{{ password.win_password }}"
