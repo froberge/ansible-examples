@@ -22,12 +22,6 @@
 # server_name: ""
 
   tasks:
-    - name: Create rsa key pair
-      amazon.aws.ec2_key:
-        name: "{{ key_name }}"
-        key_type: rsa
-        region: "{{ region }}"
-      register: rsa_key
 
     - name: Create a VPC in AWS
       amazon.aws.ec2_vpc_net:
@@ -97,7 +91,7 @@
         instance_type: "{{ instance_type | default('t2.micro') }}"
         region: "{{ region }}"
         image_id: "{{ image_id }}"
-        key_name: "{{ rsa_key.key.name }}"
+        key_name: "{{ key_name }}"
         count: "1"
         wait: true
         state: present
@@ -128,7 +122,7 @@
       community.aws.ec2_win_password:
         instance_id: "{{ ec2_instance[0].instance.instance_id }}"
         region: "{{ region }}"
-        key_data: "{{ rsa_key.key.private_key }}"
+        key_data: "{{ window_machin.private_key.private_key }}"
         wait: true
       register: password
 
