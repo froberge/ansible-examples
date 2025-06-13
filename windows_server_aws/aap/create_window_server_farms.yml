@@ -4,19 +4,22 @@
 
 
 # This varible need to be define in the AAP Platform.
-# vars: 
-#   project_name: "Ansible_Windows_Demo"
-#   routigTable_name: "rt_ansible_window_demo"
-#   key_name: "ansible_windows_demo_admin_key"
-#   region: "us-east-2"
-#   zone: "us-east-2a"
-#   image_id: "ami-0c808db6baea2d0ed"
-#   vpc_cidr_block: "10.0.0.0/16"
-#   subnet_cidr_block: "10.0.0.0/20"
-#   security_cidr_block: "0.0.0.0/0"
-#   destination_cidr_block: "0.0.0.0/0"
-
-
+#
+# project_name: ""
+# routigTable_name: ""
+# vpc_name: ""
+# subnet_name: ""
+# internet_gateway_name: ""
+# security_group_name: ""
+# key_name: ""
+# region: "us-east-2"
+# zone: "us-east-2a"
+# image_id: "ami-0c808db6baea2d0ed"
+# vpc_cidr_block: "10.0.0.0/16"
+# subnet_cidr_block: "10.0.0.0/20"
+# security_cidr_block: "0.0.0.0/0"
+# destination_cidr_block: "0.0.0.0/0"
+# server_name: ""
 
   tasks:
     - name: Create rsa key pair
@@ -28,7 +31,7 @@
 
     - name: Create a VPC in AWS
       amazon.aws.ec2_vpc_net:
-        name: vpc_ansible_window_demo
+        name: "{{  vpc_name }}"
         cidr_block: "{{ vpc_cidr_block }}"
         region: "{{ region }}"
         tags:
@@ -45,7 +48,7 @@
         cidr: "{{ subnet_cidr_block }}"
         map_public: true
         tags:
-          name: "subnet_ansible_window_demo"
+          name: "{{ subnet_name }}"
           project: "{{ project_name }}"
       register: subnet_ids
 
@@ -55,7 +58,7 @@
         region: "{{ region }}"
         state: present
         tags:
-          name: "igw_ansible_window_demo"
+          name: "{{ internet_gateway_name }}"
           project: "{{ project_name }}"
       register: internet_gateway
 
@@ -76,12 +79,12 @@
 
     - name: Create security group
       amazon.aws.ec2_group:
-        name: "sg_ansible_window_demo"
+        name: "{{ security_group_name }}"
         description: "allow remote windows"
         vpc_id: "{{ vpc.vpc.id }}"
         region: "{{ region }}"
         tags:
-          name: "sg_ansible_window_demo"
+          name: "{{ security_group_name }}"
           project: "{{ project_name }}"
         rules:
           - proto: tcp
@@ -95,36 +98,36 @@
         region: "{{ region }}"
         image_id: "{{ image_id }}"
         key_name: "{{ rsa_key.key.name }}"
-        count: "3"
-        name: window_server
+        count: "1"
+        wait: true
+        state: present
         vpc_subnet_id: "{{subnet_ids.subnet.id}}"
         security_group: "{{ securityGroup.group_name }}"
         network_interfaces:
           - assign_public_ip: true
         tags:
-          Type: "window_server"
+        Name: "{{ item }}"
+          Type: "windowServer"
           Env: "dev"
           Project: "{{ project_name }}"
-        state: present
+          Provider: "AWS"
         volumes:
           - device_name: /dev/sda1
             ebs:
               volume_size: 30
               volume_type: gp2
               delete_on_termination: true
-        wait: true
+      loop: "{{ server_name }}"
       register: ec2_instance
 
-    - name: Get admin password
-      community.aws.ec2_win_password:
-        access_key: "{{ AWS_ACCESS_KEY_ID }}"
-        secret_key: "{{ AWS_SECRET_KEY }}"
-        instance_id: "{{ ec2_instance.instances[0].instance_id }}"
-        region: "{{ region }}"
-        key_file: administrator.pem
-        wait: true
-      register: password
+    # - name: Get admin password
+    #   community.aws.ec2_win_password:
+    #     instance_id: "{{ ec2_instance.instances[0].instance_id }}"
+    #     region: "{{ region }}"
+    #     key_file: administrator.pem
+    #     wait: true
+    #   register: password
 
-    - name: show password
-      debug:
-        msg: "{{ password.win_password }}"
+    # - name: show password
+    #   debug:
+    #     msg: "{{ password.win_password }}"
