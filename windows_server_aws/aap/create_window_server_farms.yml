@@ -106,7 +106,7 @@
         network_interfaces:
           - assign_public_ip: true
         tags:
-          Name: "{{ item }}"
+          Name: "{{ server_name}}"
           Type: "windowServer"
           Env: "dev"
           Project: "{{ project_name }}"
@@ -117,7 +117,7 @@
               volume_size: 30
               volume_type: gp2
               delete_on_termination: true
-      loop: "{{ server_name }}"
+      # loop: "{{ server_name }}"
       register: ec2_instance
 
     # - name: Get admin password
