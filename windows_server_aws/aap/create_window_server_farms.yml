@@ -120,7 +120,8 @@
 
     - name: Get admin password
       community.aws.ec2_win_password:
-        instance_id: "{{ ec2_instance[0].instance.instance_id }}"
+        instance_id: 'i-0f908f7d12edb09ea'
+        #"{{ ec2_instance[0].instance.instance_id }}"
         region: "{{ region }}"
         key_data: "{{ window_machin.private_key.private_key }}"
         wait: true
