@@ -14,7 +14,7 @@
 # key_name: ""
 # region: "us-east-2"
 # zone: "us-east-2a"
-# image_id: "ami-0c808db6baea2d0ed"
+# image_id: ""
 # vpc_cidr_block: "10.0.0.0/16"
 # subnet_cidr_block: "10.0.0.0/20"
 # security_cidr_block: "0.0.0.0/0"
@@ -106,7 +106,7 @@
         network_interfaces:
           - assign_public_ip: true
         tags:
-          Name: "{{ server_name}}"
+          Name: "{{ item }}"
           Type: "windowServer"
           Env: "dev"
           Project: "{{ project_name }}"
@@ -117,7 +117,7 @@
               volume_size: 30
               volume_type: gp2
               delete_on_termination: true
-      # loop: "{{ server_name }}"
+      loop: "{{ server_name }}"
       register: ec2_instance
 
     # - name: Get admin password
