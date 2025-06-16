@@ -133,7 +133,7 @@
     #   register: password
 
     - name: Retrieve password data
-      amazon.aws.ec2_get_password_data:
+      community.aws.ec2_win_password:
         instance_id: "{{ ec2_instance.results[0].instances[0].instance_id }}"
         region: "{{ region }}"
       register: password_data
