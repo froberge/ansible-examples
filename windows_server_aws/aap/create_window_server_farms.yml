@@ -31,7 +31,7 @@
 
     - name: debug__rsa_key
       ansible.builtin.debug:
-        msg: "Key pair key: {{ key_pair_info.key.private_key }}"
+        msg: "Key pair key: {{ rsa_key.key.private_key }}"
 
   #  - name: Create a VPC in AWS
     #   amazon.aws.ec2_vpc_net:
