@@ -132,13 +132,13 @@
       debug:
         msg: "instance {{ ec2_instance.results[0].instance_ids }}"  
 
-    # - name: Get admin password
-    #   community.aws.ec2_win_password:
-    #     instance_id: "{{ ec2_instance.results.instances[0].instance_id }}"
-    #     region: "{{ region }}"
-    #     key_data: '{{ lookup("env", "window_private_key" ) }}'
-    #     wait: true
-    #   register: password
+    - name: Get admin password
+      community.aws.ec2_win_password:
+        instance_id: "{{ ec2_instance.results[0].instance_ids }}"
+        region: "{{ region }}"
+        key_data: '{{ lookup("env", "window_private_key" ) }}'
+        wait: true
+      register: password
 
     - name: show password
       debug:
