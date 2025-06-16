@@ -22,17 +22,16 @@
 # server_name: ""
 
   tasks:
-    - name: Get EC2 key pair information
-      amazon.aws.ec2_key_info:
-        names: "{{ key_name }}"
+    - name: Create rsa key pair
+      amazon.aws.ec2_key:
+        access_key: "{{ AWS_ACCESS_KEY_ID }}"
+        secret_key: "{{ AWS_SECRET_KEY }}"
+        name: "{{ key_name }}"
+        key_type: rsa
         region: "{{ region }}"
-      register: key_pair_info
+      register: rsa_key
 
-    - name: debug_1 
-      ansible.builtin.debug:
-        msg: "Key pair info: {{ key_pair_info }}"
-
-    - name: debug_2
+    - name: debug__rsa_key
       ansible.builtin.debug:
         msg: "Key pair key: {{ key_pair_info.key.private_key }}"
 
