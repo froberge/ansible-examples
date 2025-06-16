@@ -131,11 +131,12 @@
     #     key_data: '{{ lookup("env", "window_private_key" ) }}'
     #     wait: true
     #   register: password
+
     - name: Retrieve password data
       amazon.aws.ec2_get_password_data:
         instance_id: "{{ ec2_instance.results[0].instances[0].instance_id }}"
         region: "{{ region }}"
-    register: password_data
+      register: password_data
 
     - name: show password
       debug:
