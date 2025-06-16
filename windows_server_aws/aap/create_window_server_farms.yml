@@ -24,8 +24,6 @@
   tasks:
     - name: Create rsa key pair
       amazon.aws.ec2_key:
-        access_key: "{{ AWS_ACCESS_KEY_ID }}"
-        secret_key: "{{ AWS_SECRET_KEY }}"
         name: "{{ key_name }}"
         key_type: rsa
         region: "{{ region }}"
