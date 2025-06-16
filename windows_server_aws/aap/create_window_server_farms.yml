@@ -128,9 +128,13 @@
       ansible.builtin.debug:
         msg: "Ansible ec2_instance : {{ ec2_instance  }}"
 
+    - name: show instance
+      debug:
+        msg: "instance {{ ec2_instance.instances[1].instance_id }}"  
+
     - name: Get admin password
       community.aws.ec2_win_password:
-        instance_id: "{{ ec2_instance.instances[0].instance_id }}"
+        instance_id: "{{ ec2_instance.instances[1].instance_id }}"
         region: "{{ region }}"
         key_data: '{{ lookup("env", "window_private_key" ) }}'
         wait: true
