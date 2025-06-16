@@ -124,13 +124,18 @@
       loop: "{{ server_name }}"
       register: ec2_instance
 
-    - name: Print ece_instance
-      ansible.builtin.debug:
-        msg: "Ansible ec2_instance : {{ ec2_instance  }}"
+    # - name: show instance
+    #   debug:
+    #     msg: "instance {{ ec2_instance.results[0].instances[0].instance_id }}"  
 
-    - name: show instance
-      debug:
-        msg: "instance {{ ec2_instance.results[0].instances[0].instance_id }}"  
+    - name: Wait until instance is running
+      amazon.aws.ec2_instance_info:
+        instance_ids: ["{{ ec2_instance.results[0].instances[0].instance_id }}"]
+        region: "{{ region }}"
+      register: ec2_info
+      until: ec2_info.instances[0].state.name == "running"
+      retries: 20
+      delay: 15
 
     - name: Get admin password
       community.aws.ec2_win_password:
