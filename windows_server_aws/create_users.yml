@@ -1,0 +1,21 @@
+---
+- name: Create user 
+  hosts: all
+  gather_facts: false
+
+  # THIS VARIABLE NEED TO BE PROVIDED.
+  # vars:
+  #   username:
+  #   user_password:
+
+  tasks:
+  - name: Create admin user
+    ansible.windows.win_user:
+      name: "{{ username }}"
+      password: "{{ user_password }}"
+      state: present
+      account_expires: never
+      password_never_expires: true
+      group_action: add
+      groups: "administrators"
+
