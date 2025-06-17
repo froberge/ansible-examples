@@ -9,7 +9,7 @@
         secret_key: "{{ AWS_SECRET_KEY }}"
         region: "{{ region }}"
         filters:
-          "tag:project": "{{ project_name }}"
+          "tag:Project": "{{ project_name }}"
       register: ec2_list
 
     - name: Delete EC2 instance for project "{{ project_name }}"
@@ -28,7 +28,7 @@
         secret_key: "{{ AWS_SECRET_KEY }}"
         region: "{{ region }}"
         filters:
-          "tag:project": "{{ project_name }}"
+          "tag:Project": "{{ project_name }}"
       register: all_vpcs
 
     - name: Delete Route Table for project "{{ project_name }}"

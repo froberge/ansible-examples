@@ -1,0 +1,24 @@
+all:
+  vars: 
+    # MUST BE DEFINE WITH YOU OWN VALUES
+    AWS_ACCESS_KEY_ID: [KEY HERE]
+    AWS_SECRET_KEY: [KEY HERE]
+    key_name: "[NAME OF THE KEY CREATED]"
+    key_file: [PATH TO THE private.pem FILE]
+    win_initial_password: [INITIAL ADMIN WINDOW PASSWORD]
+
+
+    # THEY CAN BE LEFT LIKE THAT IF THIS WORK FOR YOU.
+    project_name: "Windows_Farm"
+    routigTable_name: "rt_windows_farm"
+    vpc_name: "vpc_windows_farm"
+    subnet_name: "subnet_windows_farm"
+    internet_gateway_name: "igw_windows_farm"
+    security_group_name: "sg_windows_farm"
+    region: "us-east-2"
+    zone: "us-east-2a"
+    image_id: "ami-0456f45d07f287a4f"
+    vpc_cidr_block: "10.0.0.0/16"
+    subnet_cidr_block: "10.0.0.0/20"
+    security_cidr_block: "0.0.0.0/0"
+    destination_cidr_block: "0.0.0.0/0"

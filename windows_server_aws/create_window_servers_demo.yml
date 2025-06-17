@@ -1,29 +1,17 @@
 ---
-- name: Provision a window server on AWS
+- name: Provision Windows Servers on AWS
   hosts: localhost
 
   tasks:
-    - name: Create rsa key pair
-      amazon.aws.ec2_key:
-        access_key: "{{ AWS_ACCESS_KEY_ID }}"
-        secret_key: "{{ AWS_SECRET_KEY }}"
-        name: "{{ key_name }}"
-        key_type: rsa
-        region: "{{ region }}"
-      register: rsa_key
-
-    # - name: download private key
-    #   copy: content="{{ rsa_key.key.private_key }}" dest="administrator.pem"
-
     - name: Create a VPC in AWS
       amazon.aws.ec2_vpc_net:
         access_key: "{{ AWS_ACCESS_KEY_ID }}"
         secret_key: "{{ AWS_SECRET_KEY }}"
-        name: vpc_ansible_window_demo
+        name: "{{ vpc_name }}"
         cidr_block: "{{ vpc_cidr_block }}"
         region: "{{ region }}"
         tags:
-          name: "vpc_ansible_window_demo"
+          name: "{{ vpc_name }}"
           project: "{{ project_name }}"
       register: vpc 
 
@@ -38,7 +26,7 @@
         cidr: "{{ subnet_cidr_block }}"
         map_public: true
         tags:
-          name: "subnet_ansible_window_demo"
+          name: "{{ subnet_name }}"
           project: "{{ project_name }}"
       register: subnet_ids
 
@@ -50,7 +38,7 @@
         region: "{{ region }}"
         state: present
         tags:
-          name: "igw_ansible_window_demo"
+          name: "{{ internet_gateway_name }}"
           project: "{{ project_name }}"
       register: internet_gateway
 
@@ -65,7 +53,6 @@
           name: "{{ routigTable_name }}"
           project: "{{ project_name }}"
         subnets: [ "{{ subnet_ids.subnet.id }}" ]
-        # create routes
         routes:
           - dest: "{{ destination_cidr_block }}"
             gateway_id: "{{ internet_gateway.gateway_id }}"
@@ -75,56 +62,42 @@
       amazon.aws.ec2_group:
         access_key: "{{ AWS_ACCESS_KEY_ID }}"
         secret_key: "{{ AWS_SECRET_KEY }}"
-        name: "sg_ansible_window_demo"
+        name: "{{ security_group_name }}"
         description: "allow remote windows"
         vpc_id: "{{ vpc.vpc.id }}"
         region: "{{ region }}"
         tags:
-          name: "sg_ansible_window_demo"
+          name: "{{ security_group_name }}"
           project: "{{ project_name }}"
         rules:
           - proto: tcp
-            ports: 3389
+            from_port: 3389
+            to_port: 3389
+            cidr_ip: "{{ security_cidr_block }}"
+          - proto: tcp
+            from_port: 5986
+            to_port: 5986
+            cidr_ip: "{{ security_cidr_block }}"
+          - proto: tcp
+            from_port: 80
+            to_port: 80
             cidr_ip: "{{ security_cidr_block }}"
       register: securityGroup
 
-    - name: Create EC2 instance
-      amazon.aws.ec2_instance:
-        access_key: "{{ AWS_ACCESS_KEY_ID }}"
-        secret_key: "{{ AWS_SECRET_KEY }}"
-        instance_type: "{{ instance_type | default('t2.micro') }}"
-        region: "{{ region }}"
-        image_id: "{{ image_id }}"
-        key_name: "{{ rsa_key.key.name }}"
-        count: "1"
-        name: window_server
-        vpc_subnet_id: "{{subnet_ids.subnet.id}}"
-        security_group: "{{ securityGroup.group_name }}"
-        network_interfaces:
-          - assign_public_ip: true
-        tags:
-          name: "window_server"
-          project: "{{ project_name }}"
-        state: present
-        volumes:
-          - device_name: /dev/sda1
-            ebs:
-              volume_size: 30
-              volume_type: gp2
-              delete_on_termination: true
-        wait: true
-      register: ec2_instance
+    - include_role: 
+        name: roles/create_ec2_vm_instance
+      vars:
+        tag_environment: Dev
+        server_name: 
+          - server1
+          - server2
+      loop: "{{ server_name }}"
 
-    - name: Get admin password
-      community.aws.ec2_win_password:
-        access_key: "{{ AWS_ACCESS_KEY_ID }}"
-        secret_key: "{{ AWS_SECRET_KEY }}"
-        instance_id: "{{ ec2_instance.instances[0].instance_id }}"
-        region: "{{ region }}"
-        key_file: administrator.pem
-        wait: true
-      register: password
-
-    - name: show password
-      debug:
-        msg: "{{ password.win_password }}"
+    - include_role: 
+        name: roles/create_ec2_vm_instance
+      vars:
+        tag_environment: Prod
+        server_name: 
+          - server3
+          - server4
+      loop: "{{ server_name }}"

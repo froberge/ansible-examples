@@ -2,18 +2,9 @@
 
 # misc
 .DS_Store
-note.txt
 .env.local
-*-local*
-*.pem
-.vscode
+note.txt
 .env.*
 
-
-###############
-# Ansible
-###############
-
-/*-artifact-*.json
 **/context/
 **/ansible.cfg
