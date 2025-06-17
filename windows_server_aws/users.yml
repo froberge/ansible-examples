@@ -12,7 +12,7 @@
   - name: Create admin user
     ansible.windows.win_user:
       name: "{{ username }}"
-      password: "{ user_password}"
+      password: "{{ user_password }}"
       state: present
       account_expires: never
       password_never_expires: true
