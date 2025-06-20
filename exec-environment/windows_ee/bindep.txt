@@ -1,0 +1,5 @@
+gcc
+python3-devel
+krb5-devel
+krb5-workstation
+python3-kerberos
