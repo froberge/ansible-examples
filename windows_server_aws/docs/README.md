@@ -101,3 +101,5 @@ value for mapping:
 :star2: You now have an infra of window machine on AWS.  Enjoy !!!
 
 
+###### Run different playbook on the infra.
+
