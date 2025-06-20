@@ -1,8 +1,6 @@
 ---  
   - name: Create {{ tag_environment }} EC2 instance name {{ item }}
     amazon.aws.ec2_instance:
-      access_key: "{{ AWS_ACCESS_KEY_ID }}"
-      secret_key: "{{ AWS_SECRET_KEY }}"
       instance_type: "{{ instance_type | default('t2.medium') }}"
       region: "{{ region }}"
       image_id: "{{ image_id }}"

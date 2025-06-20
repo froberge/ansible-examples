@@ -5,8 +5,6 @@
   tasks:
     - name: Create a VPC in AWS
       amazon.aws.ec2_vpc_net:
-        access_key: "{{ AWS_ACCESS_KEY_ID }}"
-        secret_key: "{{ AWS_SECRET_KEY }}"
         name: "{{ vpc_name }}"
         cidr_block: "{{ vpc_cidr_block }}"
         region: "{{ region }}"
@@ -17,8 +15,6 @@
 
     - name: Create a subnet for the VPC
       amazon.aws.ec2_vpc_subnet:
-        access_key: "{{ AWS_ACCESS_KEY_ID }}"
-        secret_key: "{{ AWS_SECRET_KEY }}"
         vpc_id: "{{vpc.vpc.id}}"
         region: "{{ region }}"
         az: "{{ zone }}"
@@ -32,8 +28,6 @@
 
     - name: Create the internet gateway for the VPC
       amazon.aws.ec2_vpc_igw:
-        access_key: "{{ AWS_ACCESS_KEY_ID }}"
-        secret_key: "{{ AWS_SECRET_KEY }}"
         vpc_id: "{{vpc.vpc.id}}"
         region: "{{ region }}"
         state: present
@@ -44,8 +38,6 @@
 
     - name: Create a route table for the VPC
       amazon.aws.ec2_vpc_route_table:
-        access_key: "{{ AWS_ACCESS_KEY_ID }}"
-        secret_key: "{{ AWS_SECRET_KEY }}"
         vpc_id: "{{vpc.vpc.id}}"
         region: "{{ region }}"
         state: present
@@ -60,8 +52,6 @@
 
     - name: Create security group
       amazon.aws.ec2_group:
-        access_key: "{{ AWS_ACCESS_KEY_ID }}"
-        secret_key: "{{ AWS_SECRET_KEY }}"
         name: "{{ security_group_name }}"
         description: "allow remote windows"
         vpc_id: "{{ vpc.vpc.id }}"

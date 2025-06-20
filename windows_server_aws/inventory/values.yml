@@ -1,12 +1,12 @@
 all:
   vars: 
-    # MUST BE DEFINE WITH YOU OWN VALUES
+    # MUST BE DEFINE WITH YOU OWN VALUES IF RUNNING LOCAL
     AWS_ACCESS_KEY_ID: [KEY HERE]
     AWS_SECRET_KEY: [KEY HERE]
-    key_name: "[NAME OF THE KEY CREATED]"
 
     # THEY CAN BE LEFT LIKE THAT IF THIS WORK FOR YOU.
     project_name: "Windows_Farm"
+    key_name: "window_farm_demo"
     routigTable_name: "rt_windows_farm"
     vpc_name: "vpc_windows_farm"
     subnet_name: "subnet_windows_farm"
