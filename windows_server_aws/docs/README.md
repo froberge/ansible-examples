@@ -32,14 +32,14 @@ Here is an example how to create with ansible-playbool a AWS environment that wi
     * AWS_ACCESS_KEY_ID
     * AWS_SECRET_KEY
     * key_name
-    * key_file
 
 
-
-#### Execute
+#### Execute Local
 
 :warning: Lot's of var have been externalize to represent running in a real environment, they must be provider to the playbook in order to work. Make sure you have done the requirment step before.
 
 ```
 ansible-playbook -i inventory/values-local.yml [desired playbook]
 ```
+
+#### Execute Ansible Automation Platform

@@ -1,3 +1,5 @@
 #SPDX-License-Identifier: MIT-0
 ---
 # vars file for create_ec2_vm_instance
+
+win_initial_password: "w!nd0wD3m0"

@@ -4,9 +4,6 @@ all:
     AWS_ACCESS_KEY_ID: [KEY HERE]
     AWS_SECRET_KEY: [KEY HERE]
     key_name: "[NAME OF THE KEY CREATED]"
-    key_file: [PATH TO THE private.pem FILE]
-    win_initial_password: [INITIAL ADMIN WINDOW PASSWORD]
-
 
     # THEY CAN BE LEFT LIKE THAT IF THIS WORK FOR YOU.
     project_name: "Windows_Farm"

@@ -3,14 +3,12 @@
     amazon.aws.ec2_instance:
       access_key: "{{ AWS_ACCESS_KEY_ID }}"
       secret_key: "{{ AWS_SECRET_KEY }}"
-      instance_type: "{{ instance_type | default('t2.small') }}"
+      instance_type: "{{ instance_type | default('t2.medium') }}"
       region: "{{ region }}"
       image_id: "{{ image_id }}"
-      key_name: "{{ key_name }}"
-      count: "1"
-      name: "{{ item }}" 
-      vpc_subnet_id: "{{subnet_ids.subnet.id}}"
       security_group: "{{ securityGroup.group_name }}"
+      key_name: "{{ key_name }}"
+      vpc_subnet_id: "{{subnet_ids.subnet.id}}"
       network_interfaces:
         - assign_public_ip: true
       tags:
@@ -27,22 +25,19 @@
             delete_on_termination: true
       state: started
       wait: true
+      user_data: "{{ lookup('template', 'userdata.txt.j2') }}"
     register: ec2_instance
 
-  - name: show {{ item }} public ip
-    debug:
-      msg: "{{ ec2_instance.instances[0].public_dns_name }}"
+  # - name: Get admin password
+  #   community.aws.ec2_win_password:
+  #     access_key: "{{ AWS_ACCESS_KEY_ID }}"
+  #     secret_key: "{{ AWS_SECRET_KEY }}"
+  #     instance_id: "{{ ec2_instance.instances[0].instance_id }}"
+  #     region: "{{ region }}"
+  #     key_file: "{{ key_file }}"
+  #     wait: true
+  #   register: password
 
-  - name: Get admin password
-    community.aws.ec2_win_password:
-      access_key: "{{ AWS_ACCESS_KEY_ID }}"
-      secret_key: "{{ AWS_SECRET_KEY }}"
-      instance_id: "{{ ec2_instance.instances[0].instance_id }}"
-      region: "{{ region }}"
-      key_file: "{{ key_file }}"
-      wait: true
-    register: password
-
-  - name: show password {{ item }}
-    debug:
-      msg: "{{ password.win_password }}"
+  # - name: show password {{ item }}
+  #   debug:
+  #     msg: "{{ password.win_password }}"     

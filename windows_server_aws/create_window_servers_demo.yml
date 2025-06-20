@@ -82,6 +82,10 @@
             from_port: 80
             to_port: 80
             cidr_ip: "{{ security_cidr_block }}"
+          - proto: tcp
+            from_port: 5985
+            to_port: 5985
+            cidr_ip: "{{ security_cidr_block }}"
       register: securityGroup
 
     - include_role: 
@@ -90,7 +94,7 @@
         tag_environment: Dev
         server_name: 
           - server1
-          - server2
+          # - server2
       loop: "{{ server_name }}"
 
     - include_role: 
@@ -99,5 +103,5 @@
         tag_environment: Prod
         server_name: 
           - server3
-          - server4
+          # - server4
       loop: "{{ server_name }}"
