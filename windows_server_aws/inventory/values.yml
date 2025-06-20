@@ -19,3 +19,7 @@ all:
     subnet_cidr_block: "10.0.0.0/20"
     security_cidr_block: "0.0.0.0/0"
     destination_cidr_block: "0.0.0.0/0"
+    dev_server_name:
+      - server1
+    prod_server_name:
+      - server3

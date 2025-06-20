@@ -28,13 +28,17 @@
       user_data: "{{ lookup('template', 'userdata.txt.j2') }}"
     register: ec2_instance
 
+  #####################################################
+  # This section can be use when using ansible local. #
+  #####################################################
+
   # - name: Get admin password
   #   community.aws.ec2_win_password:
   #     access_key: "{{ AWS_ACCESS_KEY_ID }}"
   #     secret_key: "{{ AWS_SECRET_KEY }}"
   #     instance_id: "{{ ec2_instance.instances[0].instance_id }}"
   #     region: "{{ region }}"
-  #     key_file: "{{ key_file }}"
+  #     key_file: "~/Downloads/window_farm_demo.pem"
   #     wait: true
   #   register: password
 
