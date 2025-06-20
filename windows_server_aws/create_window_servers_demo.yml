@@ -92,16 +92,10 @@
         name: roles/create_ec2_vm_instance
       vars:
         tag_environment: Dev
-        server_name: 
-          - server1
-          # - server2
-      loop: "{{ server_name }}"
+      loop: "{{ dev_server_name }}"
 
     - include_role: 
         name: roles/create_ec2_vm_instance
       vars:
         tag_environment: Prod
-        server_name: 
-          - server3
-          # - server4
-      loop: "{{ server_name }}"
+      loop: "{{ prod_server_name }}"
