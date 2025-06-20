@@ -49,3 +49,45 @@ ansible-playbook -i inventory/values-local.yml [desired playbook]
 ```
 
 #### Execute Ansible Automation Platform
+
+###### Setup
+1. Create a credential with your AWS information
+![aws_credential](images/aws-credential.png)
+
+1. Create a credential with the machine information to connect to the newly created window VM
+![vm_credential](images/window-machine.png)
+
+1. Create a dynamic inventory. To do so, create a dynamic source.
+![dynamic_inventory](images/dynamic_inventory.png)
+value for mapping:
+    ```
+    regions: us-east-2
+    keyed_groups:
+    - key: tags.Type
+        prefix: tag
+    - key: tags.Env
+        prefix: tag
+    - key: tags.Project
+        prefix: tag
+    ```
+
+1. :warning: Once you have done the first sync. In groups you need to enter the values in order to use `winRM` to connect to the windowsV VM for automation. This values are enter in the `aws_ec2` group.
+![group](images/group.png)
+  variable:
+    ```
+    ansible_connection: winrm
+    ansible_port: 5986
+    ansible_winrm_transport: ntlm
+    ansible_winrm_server_cert_validation: ignore
+    ```
+1. Create 2 execution environment.
+  * First to execute on AWS. `quay.io/froberge/ansible_cloud_deploy:0.3`
+  ![cloud_ee](images/cloud_ee.png)
+    
+  * Second to run windows tasks. `quay.io/froberge/window_ee:0.1`
+  ![window_ee](images/window_ee.png)
+
+###### To Run the project that creat the infra.
+
+1. Create the project project 
+1. Create the required template. You can use the value [here](../inventory/values.yml) for the extra variables.
