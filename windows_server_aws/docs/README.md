@@ -57,6 +57,9 @@ ansible-playbook -i inventory/values-local.yml [desired playbook]
 1. Create a credential with the machine information to connect to the newly created window VM
 ![vm_credential](images/window-machine.png)
 
+1. Create a dummy inventory for local cloud.
+![cloud_inventory](images/cloud_inventory.png)
+
 1. Create a dynamic inventory. To do so, create a dynamic source.
 ![dynamic_inventory](images/dynamic_inventory.png)
 value for mapping:
@@ -87,7 +90,14 @@ value for mapping:
   * Second to run windows tasks. `quay.io/froberge/window_ee:0.1`
   ![window_ee](images/window_ee.png)
 
-###### To Run the project that creat the infra.
+###### To Run the project that create the infra.
 
 1. Create the project project 
 1. Create the required template. You can use the value [here](../inventory/values.yml) for the extra variables.
+![template_infra](images/template_infra.png)
+1. Run the template
+1. Sync the inventory
+
+:star2: You now have an infra of window machine on AWS.  Enjoy !!!
+
+
