@@ -4,8 +4,27 @@
   hosts: all
   gather_facts: no
 
+  vars:
+    software_packages:
+      - name: nodejs
+        version: 13.0.0
+      - name: python
+        version: 3.10.0
+      - name: firefox
+        version: 139.0.4
+
   tasks:
-    - name: Install Firefox
-      win_chocolatey:
-        name: firefox
-        state: present
+    - name: Install a specific version of a package
+      ansible.builtin.win_chocolatey:
+        name: "{{ item.name }}"
+        version: "{{ item.version }}"
+        force: yes
+      loop: "{{ software_packages }}"
+
+    - name: check version of python
+      ansible.windows.win_command: python --version
+      register: python_version
+
+    - name: Print python version
+      ansible.builtin.debug:
+      msg: "{{ python_version }}"
