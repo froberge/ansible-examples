@@ -27,4 +27,4 @@
 
     - name: Print python version
       ansible.builtin.debug:
-      msg: "{{ python_version }}"
+        msg: "{{ python_version }}"
