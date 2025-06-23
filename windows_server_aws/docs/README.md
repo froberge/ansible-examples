@@ -101,5 +101,13 @@ value for mapping:
 :star2: You now have an infra of window machine on AWS.  Enjoy !!!
 
 
-###### Run different playbook on the infra.
+###### Available playbook on the once created.
 
+To know what is available win the collection `win_update` check the [window update collection page, ](https://docs.ansible.com/ansible/latest/collections/ansible/windows/win_updates_module.html) which give great examples.
+
+###### Existing Playbook
+
+- [Search for required Update](../search_win_update.yml)
+- [Install security update]( ../install_security_update.yml)
+- [Install some packages](../install_software_window.yml)
+- [Delete AWS infra](../delete_window_server_demo.yml)
