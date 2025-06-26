@@ -11,13 +11,19 @@
         log_path: C:\ansible_wu.txt
       register: update_results
 
-          
+
+    - name: Print update results
+      debug:
+        var: update_result
+
     - name: Report results
       debug:
         msg: |
           {% for k in update_results.updates %}
           {{ update_results.updates[k].title }}
           {% endfor %}
+
+
 
 # - name: Check for Windows Updates
 #   hosts: your_windows_hosts
