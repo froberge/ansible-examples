@@ -2,11 +2,6 @@
 
 Here is an example how to create with ansible-playbool a AWS environment that will host a VM with a windows server install in it.
 
-
-#### Available playbooks
-* [Create Window Server Demo](create_window_servers_demo.yml)
-* [Delete Window Server Demo](delete_window_server_demo.yml)
-
 #### Required
 
 1. An AWS enviroment and credentials.
@@ -97,7 +92,27 @@ value for mapping:
 ![template_infra](images/template_infra.png)
 1. Run the template
 1. Sync the inventory
-
+Extra variables used for the create and delete infra.
+```
+project_name: Windows_Farm
+key_name: window_farm_demo
+routigTable_name: rt_windows_farm
+vpc_name: vpc_windows_farm
+subnet_name: subnet_windows_farm
+internet_gateway_name: igw_windows_farm
+security_group_name: sg_windows_farm
+region: us-east-2
+zone: us-east-2a
+image_id: ami-0f92a5908d7b0f379
+vpc_cidr_block: 10.0.0.0/16
+subnet_cidr_block: 10.0.0.0/20
+security_cidr_block: 0.0.0.0/0
+destination_cidr_block: 0.0.0.0/0
+dev_server_name:
+  - server1
+prod_server_name:
+  - server3
+```
 :star2: You now have an infra of window machine on AWS.  Enjoy !!!
 
 
@@ -105,9 +120,18 @@ value for mapping:
 
 To know what is available win the collection `win_update` check the [window update collection page, ](https://docs.ansible.com/ansible/latest/collections/ansible/windows/win_updates_module.html) which give great examples.
 
-###### Existing Playbook
+###### Available playbooks
 
-- [Search for required Update](../search_win_update.yml)
-- [Install security update]( ../install_security_update.yml)
-- [Install some packages](../install_software_window.yml)
-- [Delete AWS infra](../delete_window_server_demo.yml)
+* Infra playbook
+    * [Create Window Server Demo](create_window_servers_demo.yml) - Mendatory to run in order to have a the infra.
+    * [Delete Window Server Demo](delete_window_server_demo.yml)
+
+* Update/Seach Playbook.
+    * [Search for required Update](../search_win_update.yml)
+    * [Install security update]( ../install_security_update.yml)
+    * [Install some packages](../install_software_window.yml)
+
+    :warning: Make sure you use the WinRM Machin credential for ansible to be able to connect and you can run this playbook on a given set of server using the Limit options. 
+    Example: `tag_Dev`
+    ![limits](../docs/images/limit_option.png)
+
