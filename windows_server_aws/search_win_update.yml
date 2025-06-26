@@ -14,7 +14,7 @@
 
     - name: Print update results
       debug:
-        var: update_result
+        var: update_results
 
     - name: Report results
       debug:
