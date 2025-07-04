@@ -26,7 +26,7 @@
     # see 
     # https://docs.ansible.com/ansible/latest/collections/ansible/windows/win_updates_module.html 
     # for documentation.
-    - name: Install all security, critical, and rollup updates
+    - name: Install all packages listed
       ansible.windows.win_updates:
         category_names: "{{ categories | default( '*') }}"
         reboot: "{{ reboot_server | default( 'true' ) }}"
