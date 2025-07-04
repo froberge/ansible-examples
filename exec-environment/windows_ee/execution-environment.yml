@@ -20,6 +20,7 @@ dependencies:
     - pykerberos
     - six
     - psutil
+    - jmespath
   system: bindep.txt
 additional_build_files:
     - src: ansible.cfg
