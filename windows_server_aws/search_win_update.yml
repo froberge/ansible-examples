@@ -22,19 +22,3 @@
           {% for k in update_results.updates %}
           {{ update_results.updates[k].title }}
           {% endfor %}
-
-
-
-# - name: Check for Windows Updates
-#   hosts: your_windows_hosts
-#   tasks:
-#     - name: Check for available updates
-#       ansible.windows.win_updates:
-#         category_names: '*'  # Check all update categories
-#         reboot: yes         # Automatically reboot if needed
-#         reboot_timeout: 600 # Reboot timeout in seconds
-#       register: update_result
-
-#     - name: Print update results
-#       debug:
-#         var: update_result
