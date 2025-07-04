@@ -9,20 +9,8 @@
       - CriticalUpdates
       - UpdateRollups
       - DefinitionUpdate
-#    accept_list:
-#    rejected_list:
 
   tasks:
-    - name: Check for packages to include
-      ansible.builtin.set_fact:
-        accept_packages_list: "{{ acceptlist.split(',') }}"
-      when: acceptlist != ''
-
-    - name: Check for packages to exclude
-      ansible.builtin.set_fact:
-        reject_packages_list: "{{ rejectlist.split(',') }}"
-      when: rejectlist != ''
-
     # see 
     # https://docs.ansible.com/ansible/latest/collections/ansible/windows/win_updates_module.html 
     # for documentation.
@@ -30,8 +18,6 @@
       ansible.windows.win_updates:
         category_names: "{{ categories | default( '*') }}"
         reboot: "{{ reboot_server | default( 'true' ) }}"
-        # accept_list: "{{ accept_package_list | default( ommit) }}"
-        # rejected_list: "{{ reject_package_list | default( ommit) }}"
         log_path: C:\ansible_security_update.txt
       become: true
       become_method: runas
