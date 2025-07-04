@@ -1,5 +1,5 @@
 ---
-- name: Install all security, critical, and rollup updates without a scheduled task
+- name: Install different update
   hosts: all
   gather_facts: no
 
@@ -8,6 +8,7 @@
       - Security
       - CriticalUpdates
       - UpdateRollups
+      - DefinitionUpdate
 #    accept_list:
 #    rejected_list:
 
@@ -29,8 +30,8 @@
       ansible.windows.win_updates:
         category_names: "{{ categories | default( '*') }}"
         reboot: "{{ reboot_server | default( 'true' ) }}"
-        accept_list: "{{ accept_package_list | default( ommit) }}"
-        rejected_list: "{{ reject_package_list | default( ommit) }}"
+        # accept_list: "{{ accept_package_list | default( ommit) }}"
+        # rejected_list: "{{ reject_package_list | default( ommit) }}"
         log_path: C:\ansible_security_update.txt
       become: true
       become_method: runas
