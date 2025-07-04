@@ -8,7 +8,7 @@
       - Security
       - CriticalUpdates
       - UpdateRollups
-      - DefinitionUpdate
+      - DefinitionUpdates
 
   tasks:
     # see 
@@ -18,7 +18,7 @@
       ansible.windows.win_updates:
         category_names: "{{ categories | default( '*') }}"
         reboot: "{{ reboot_server | default( 'true' ) }}"
-        log_path: C:\ansible_security_update.txt
+        log_path: C:\ansible_install_win_update.txt
       become: true
       become_method: runas
       become_user: SYSTEM
