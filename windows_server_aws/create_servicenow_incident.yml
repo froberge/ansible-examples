@@ -13,7 +13,7 @@
         state: new
         short_description: "Window Update Maintenance windows"
         description: |
-          Some windows machine need to ne updated, Dynatrave need to be disable to prevent false alert.
+          Some windows machine need to be updated, Dynatrace need to be disable to prevent false alert.
         urgency: med
         impact: high
         caller: froberge
