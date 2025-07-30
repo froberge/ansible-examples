@@ -40,4 +40,4 @@
   post_tasks:
   - name: Re-enable monitoring for selected hosts
     ansible.builtin.debug:
-      msg: "We need to start monitoring for these host in Dynatrace: {{ inventory_hostname }} is {{ ansible_default_ipv4.address }}"
+      msg: "We need to start monitoring for these host in Dynatrace: {{ inventory_hostname }} is {{ ansible_facts.ip_addresses[1] }}"
