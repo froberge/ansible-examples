@@ -1,7 +1,7 @@
 ---
 - name: Install different update
   hosts: all
-  gather_facts: no
+  gather_facts: yes
 
   vars:
     categories:
