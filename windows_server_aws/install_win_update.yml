@@ -11,10 +11,6 @@
       - DefinitionUpdates
 
   pre_tasks:
-    - name: Show all facts
-      ansible.builtin.debug:
-        var: ansible_facts
-
     - name: Disable monitoring for selected hosts
       ansible.builtin.debug:
         msg: "We need to stop monitoring for these host in Dynatrace: {{ inventory_hostname }} is {{ ansible_facts.ip_addresses[1] }}"
