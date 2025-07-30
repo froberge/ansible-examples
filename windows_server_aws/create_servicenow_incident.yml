@@ -1,0 +1,29 @@
+---
+
+- name: Create a ServiceNow Incident
+  hosts: localhost
+
+  tasks:
+    - name: Create ServiceNow ticket
+      servicenow.itsm.incident:
+        instance:
+          host: "https://{{ lookup('env', 'SERVICENOW_INSTANCE') }}"
+          username: "{{ lookup('env', 'SERVICENOW_USERNAME') }}"
+          password: "{{ lookup('env', 'SERVICENOW_PASSWORD') }}"
+        state: new
+        short_description: "Window Update Maintenance windows"
+        description: |
+          Some windows machine need to ne updated, Dynatrave need to be disable to prevent false alert.
+        urgency: med
+        impact: high
+        caller: froberge
+      register: servicenow_result
+
+    - name: Display the serviceNow ticket number
+      ansible.builtin.debug:
+        msg: "ServiceNow incident number: {{ servicenow_result.record.number }}"
+
+    - name: Save the snow_ticket for later
+      ansible.builtin.set_stats:
+        data:
+          snow_ticket_number: "{{ servicenow_result.record.number }}"

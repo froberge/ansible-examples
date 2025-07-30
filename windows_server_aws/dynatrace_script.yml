@@ -1,0 +1,54 @@
+### 
+# This would need to be tested since I don't have an instance of dynatrace available.
+# This i show I would do it if I needed to go with pre and post task.
+# Ideally I would probably do so in a Workflow, and have each pre and post task as a 
+# separate playbook for modularity
+
+
+###
+# value example:
+# dynatrace_url example: https://<your-dynatrace-environment>.live.dynatrace.com/api/v2
+# dynatrace_host_ids:
+#    - HOST-1234567890ABCDE
+#    - HOST-0987654321ZYXWV
+
+
+---
+- name: Temporarily disable monitoring in Dynatrace
+  hosts: localhost
+  vars:
+    dynatrace_api_token: "{{ lookup('env', 'DYNATRACE_API_TOKEN') }}"
+    dynatrace_api_url: "{{ lookup('env', 'DYNATRACE_URL') }}" 
+    dynatrace_host_ids: [a list of host sent from AAP]
+
+  pre_tasks:
+    - name: Disable monitoring for selected hosts
+      uri:
+        url: "{{ dynatrace_api_url }}/entities/{{ item }}/maintenanceWindows"
+        method: POST
+        headers:
+          Authorization: "Api-Token {{ dynatrace_api_token }}"
+          Content-Type: "application/json"
+        body_format: json
+        body:
+          description: "Ansible maintenance window"
+          type: "PLANNED"
+          suppressAlerts: true
+          scope:
+            entities:
+              - "{{ item }}"
+          schedule:
+            type: "ONCE"
+            startTime: "{{ lookup('pipe', 'date -u +%Y-%m-%dT%H:%M:%SZ') }}"
+            endTime: "{{ lookup('pipe', 'date -u -d \"+30 minutes\" +%Y-%m-%dT%H:%M:%SZ') }}"
+      loop: "{{ dynatrace_host_ids }}"
+
+  tasks:
+    - name: [WHAT EVER YOU NEED TO DO ON THE WINDOW MACHINE]
+       
+
+  post_tasks:
+    - name: Delete maintenance windows or re-enable monitoring (if needed)
+      # optional: depends on how you want to handle MW cleanup
+      debug:
+        msg: "Dynatrace monitoring will auto-resume after the window"

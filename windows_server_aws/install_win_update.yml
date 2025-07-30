@@ -10,6 +10,11 @@
       - UpdateRollups
       - DefinitionUpdates
 
+  pre_tasks:
+    - name: Disable monitoring for selected hosts
+      ansible.builtin.debug:
+        msg: "We need to stop monitoring for these host in Dynatrace: {{ inventory_hostname }} is {{ ansible_default_ipv4.address }}"
+
   tasks:
     # see 
     # https://docs.ansible.com/ansible/latest/collections/ansible/windows/win_updates_module.html 
@@ -27,3 +32,8 @@
     - name: Display Patching Results
       ansible.builtin.debug:
         msg: "{{ patching_result | json_query('updates.*.title') }}"
+
+  post_tasks:
+  - name: Re-enable monitoring for selected hosts
+    ansible.builtin.debug:
+      msg: "We need to start monitoring for these host in Dynatrace: {{ inventory_hostname }} is {{ ansible_default_ipv4.address }}"
